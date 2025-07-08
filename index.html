@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amaronattire</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #1606f8;
+            color: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInLogo 1s 0.2s forwards;
+        }
+        @keyframes fadeInLogo {
+            to { opacity: 1; }
+        }
+        .search-bar {
+            flex: 1;
+            margin: 0 32px;
+            display: flex;
+            transform: translateY(-30px);
+            opacity: 0;
+            animation: slideInSearch 1s 0.6s forwards;
+        }
+        @keyframes slideInSearch {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            transition: box-shadow 0.3s;
+        }
+        .search-bar input:focus {
+            box-shadow: 0 0 0 2px #1606f8;
+            outline: none;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background: #333;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+        .search-bar button:hover {
+            background: #2904e2;
+        }
+        .main {
+            display: flex;
+            max-width: 1200px;
+            margin: 32px auto;
+            gap: 24px;
+        }
+        .sidebar {
+            width: 220px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 24px 16px;
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar li {
+            margin-bottom: 12px;
+            color: #2904e2;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.3s;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        .sidebar li.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .sidebar li:hover {
+            color: #5b06f8;
+            transform: scale(1.08);
+        }
+        .products {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.3s, transform 0.3s;
+            opacity: 0;
+            transform: translateY(30px) scale(0.97);
+        }
+        .product-card.animated {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 24px rgba(22,6,248,0.13);
+            transform: scale(1.04);
+        }
+        .product-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover img {
+            transform: scale(1.08) rotate(-3deg);
+        }
+        .product-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .product-price {
+            color: #0632f8;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .add-cart {
+            background: #1404f5;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .add-cart:active {
+            box-shadow: 0 2px 8px #0632f8;
+        }
+        .add-cart:hover {
+            background: #2e03f0;
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            background: rgba(255,255,255,0.6);
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        .footer {
+            background: #222;
+            color: #fff;
+            text-align: center;
+            padding: 18px 0;
+            margin-top: 40px;
+        }
+        @media (max-width: 900px) {
+            .main {
+                flex-direction: column;
+                gap: 0;
+            }
+            .sidebar {
+                width: 100%;
+                margin-bottom: 24px;
+            }
+        }
+        .hero {
+            width: 100%;
+            min-height: 340px;
+            background: linear-gradient(rgba(22,6,248,0.45), rgba(22,6,248,0.25)), url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 32px;
+            animation: heroFadeIn 1.2s;
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-content {
+            color: #fff;
+            text-align: center;
+            background: rgba(22,6,248,0.18);
+            padding: 40px 32px 36px 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(22,6,248,0.10);
+            max-width: 540px;
+            margin: 0 16px;
+            animation: heroContentFade 1.5s 0.3s both;
+        }
+        @keyframes heroContentFade {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 28px;
+            color: #e0e0ff;
+        }
+        .hero-btn {
+            display: inline-block;
+            background: #fff;
+            color: #1606f8;
+            font-weight: bold;
+            padding: 12px 36px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 12px rgba(22,6,248,0.10);
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .hero-btn:hover {
+            background: #1606f8;
+            color: #fff;
+            transform: scale(1.06);
+        }
+        @media (max-width: 700px) {
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+            .hero-content {
+                padding: 24px 8px 20px 8px;
+            }
+            .hero {
+                min-height: 200px;
+            }
+        }
+        .whatsapp-float {
+            position: fixed;
+            width: 56px;
+            height: 56px;
+            bottom: 32px;
+            right: 32px;
+            background-color: #25D366;
+            color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(22,6,248,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-decoration: none;
+            cursor: pointer;
+            animation: whatsappIn 0.8s 0.5s both;
+        }
+        .whatsapp-float:hover {
+            box-shadow: 0 8px 32px rgba(37,211,102,0.25);
+            transform: scale(1.08);
+        }
+        .whatsapp-icon {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+        @keyframes whatsappIn {
+            from { opacity: 0; transform: scale(0.7) translateY(40px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @media (max-width: 700px) {
+            .whatsapp-float {
+                bottom: 16px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+            }
+            .whatsapp-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Amaronattire</div>
+        <form class="search-bar" onsubmit="searchProduct(event)">
+            <input type="text" id="searchInput" placeholder="Search in Amaronattire...">
+            <button type="submit">Search</button>
+        </form>
+        <div>
+            <button class="add-cart">Cart</button>
+        </div>
+    </div>
+    <!-- Hero Section Start -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Style</h1>
+            <p>Shop the latest fashion accessories, apparel, and more at unbeatable prices.</p>
+            <a href="#" class="hero-btn">Shop Now</a>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+    <div class="main">
+        <aside class="sidebar">
+            <h3>Categories</h3>
+            <ul>
+                <li>bags</li>
+                <li>Belts</li>
+                <li>Shirts</li>
+                <li>Wallets</li>
+                <li>Shoes</li>
+                <li>Rings</li>
+                <li>Polo-T-shirt</li>
+            </ul>
+        </aside>
+        <section class="products">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Smart Bracelet">
+                <div class="product-title">Smart Bracelet</div>
+                <div class="product-price">$29</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Leather Belt">
+                <div class="product-title">Leather Belt</div>
+                <div class="product-price">$19</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80" alt="Formal Shirt">
+                <div class="product-title">Formal Shirt</div>
+                <div class="product-price">$39</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Classic Wallet">
+                <div class="product-title">Classic Wallet</div>
+                <div class="product-price">$15</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://i.imgur.com/2nCt3Sbl.jpg" alt="Product 5">
+                <div class="product-title">shoes </div>
+                <div class="product-price">$49</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Silver Ring">
+                <div class="product-title">Silver Ring</div>
+                <div class="product-price">$25</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Polo T-shirt">
+                <div class="product-title">Polo T-shirt</div>
+                <div class="product-price">$22</div>
+                <button class="add-cart">Add to Cart</button>
+            </div>
+        </section>
+    </div>
+    <div class="footer">
+        &copy; 2025 Amaronattire. All rights reserved.
+    </div>
+    <!-- WhatsApp Floating Button Start -->
+    <a href="https://wa.me/03491796248" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path d="M24.5 19.7c-.4-.2-2.3-1.1-2.6-1.2-.3-.1-.5-.2-.7.2-.2.4-.7 1.2-.9 1.4-.2.2-.3.3-.7.1-.4-.2-1.5-.6-2.8-1.8-1-1-1.7-2.2-1.9-2.6-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.2-.4.3-.7.1-.2 0-.5 0-.7 0-.2-.7-1.7-1-2.3-.3-.6-.6-.5-.8-.5-.2 0-.4 0-.6 0-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1 0 1.2.9 2.3 1 2.5.1.2 1.7 2.7 4.1 3.7 2.4 1 2.4.7 2.8.7.4 0 1.4-.5 1.6-1 .2-.5.2-.9.1-1.1z" fill="#fff"/></svg>
+    </a>
+    <!-- WhatsApp Floating Button End -->
+    <script>
+        function searchProduct(event) {
+            event.preventDefault();
+            const query = document.getElementById('searchInput').value;
+            if(query.trim() === "") {
+                alert('Please enter a search term.');
+            } else {
+                alert('You searched for: ' + query);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const sidebarItems = document.querySelectorAll('.sidebar li');
+            sidebarItems.forEach((li, i) => {
+                setTimeout(() => {
+                    li.classList.add('animated');
+                }, 120 * i);
+            });
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, i) => {
+                setTimeout(() => {
+                    card.classList.add('animated');
+                }, 180 * i + 400);
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if(e.target.classList.contains('add-cart')) {
+                const btn = e.target;
+                const ripple = document.createElement('span');
+                const rect = btn.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.className = 'ripple';
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                btn.appendChild(ripple);
+                ripple.addEventListener('animationend', () => {
+                    ripple.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
