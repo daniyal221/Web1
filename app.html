@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniyal Apple Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --secondary: #fff;
+      --accent: #fbbc05;
+      --bg: #f5f7fa;
+      --text: #222;
+      --shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--primary);
+      color: var(--secondary);
+      padding: 1.5rem 0 1rem 0;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: var(--secondary);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-bar {
+      display: flex;
+      gap: 2rem;
+      padding: 0.7rem 0;
+    }
+    .nav-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      transition: background 0.2s, color 0.2s;
+      position: relative;
+    }
+    .nav-link.active, .nav-link:hover {
+      background: var(--primary);
+      color: var(--secondary);
+      box-shadow: 0 2px 8px rgba(26,115,232,0.08);
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 1.5rem 1rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .product-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(26,115,232,0.13);
+    }
+    .product-img {
+      width: 120px;
+      height: 200px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .product-price {
+      color: var(--primary);
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .buy-btn {
+      background: var(--accent);
+      color: #222;
+      border: none;
+      border-radius: 20px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .buy-btn:hover {
+      background: #e2a800;
+    }
+    .shop-now-btn {
+      background: #fff;
+      color: var(--primary);
+      font-weight: 700;
+      padding: 0.9rem 2.2rem;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      display: inline-block;
+      margin-top: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    .shop-now-btn:hover, .shop-now-btn:focus {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px) scale(1.04);
+      outline: none;
+    }
+    .add-cart-btn {
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.8rem 2.2rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .add-cart-btn:hover, .add-cart-btn:focus {
+      background: #1558b0;
+      color: #fff;
+      transform: translateY(-2px) scale(1.04);
+      outline: none;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.3rem; }
+      .nav-bar { gap: 1rem; }
+      .products { gap: 1rem; }
+      .product-card { padding: 1rem 0.5rem; }
+      .shop-now-btn {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Daniyal Apple Store</h1>
+    <p>Your one-stop shop for the latest smartphones</p>
+  </header>
+  <nav>
+    <div class="nav-bar">
+      <a href="#home" class="nav-link active" onclick="setActive(this)">Home</a>
+      <a href="#products" class="nav-link" onclick="setActive(this)">Products</a>
+      <a href="#about" class="nav-link" onclick="setActive(this)">About</a>
+      <a href="#contact" class="nav-link" onclick="setActive(this)">Contact</a>
+    </div>
+    <button id="cart-btn" style="position:relative; margin-left:2rem; background:none; border:none; cursor:pointer;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#1a73e8"/><path d="M7 18c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7.16 14l.84-2h7.45c.75 0 1.41-.41 1.75-1.03l3.24-5.88A1 1 0 0 0 19.45 4H6.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 14.37 5.48 16 7 16h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12z" fill="#fff"/></svg>
+      <span id="cart-count" style="position:absolute; top:-8px; right:-8px; background:#fbbc05; color:#222; border-radius:50%; padding:2px 7px; font-size:0.9rem; font-weight:700;">0</span>
+    </button>
+  </nav>
+  <!-- Cart Modal -->
+  <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:200; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:16px; max-width:420px; width:95vw; padding:2rem 1.2rem; box-shadow:0 4px 24px rgba(26,115,232,0.13); position:relative;">
+      <button onclick="closeCart()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#888;">&times;</button>
+      <h2 style="text-align:center; color:var(--primary); margin-bottom:1.2rem;">Your Cart</h2>
+      <div id="cart-items"></div>
+      <div id="cart-total" style="margin:1.2rem 0; font-weight:700; text-align:right;"></div>
+      <button onclick="proceedToCheckout()" style="background:var(--primary); color:#fff; border:none; border-radius:8px; padding:0.7rem 1.5rem; font-size:1rem; font-weight:600; cursor:pointer; width:100%;">Proceed to Checkout</button>
+    </div>
+  </div>
+  <!-- Checkout Modal -->
+  <div id="checkout-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:300; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:16px; max-width:420px; width:95vw; padding:2rem 1.2rem; box-shadow:0 4px 24px rgba(26,115,232,0.13); position:relative;">
+      <button onclick="closeCheckout()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#888;">&times;</button>
+      <h2 style="text-align:center; color:var(--primary); margin-bottom:1.2rem;">Checkout</h2>
+      <form id="checkout-form" onsubmit="submitOrder(event)">
+        <input type="text" name="name" placeholder="Your Name" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:0.7rem; width:100%;">
+        <input type="email" name="email" placeholder="Your Email" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:0.7rem; width:100%;">
+        <input type="text" name="address" placeholder="Shipping Address" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:0.7rem; width:100%;">
+        <div style="margin-bottom:0.7rem;">
+          <label style="font-weight:600; margin-bottom:0.3rem; display:block;">Payment Method:</label>
+          <select name="payment" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; width:100%;">
+            <option value="">Select Payment Option</option>
+            <option value="credit">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </div>
+        <button type="submit" style="background:var(--primary); color:#fff; border:none; border-radius:8px; padding:0.7rem; font-size:1rem; font-weight:600; cursor:pointer; width:100%;">Place Order</button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <section id="home" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; background:linear-gradient(120deg, #1a73e8 0%, #fbbc05 100%); color:#fff; border-radius:18px; margin-bottom:2.5rem; box-shadow:0 4px 24px rgba(26,115,232,0.10); padding:3rem 1rem 2.5rem 1rem; text-align:center;">
+      <h2 style="font-size:2.5rem; font-weight:700; margin-bottom:1rem; letter-spacing:1px;">Welcome to Daniyal Apple Store</h2>
+      <p style="font-size:1.25rem; max-width:600px; margin-bottom:2rem;">Discover the latest smartphones at unbeatable prices. Shop top brands, enjoy fast delivery, and experience excellent customer service.</p>
+      <a href="#products" class="shop-now-btn">Shop Now</a>
+      <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg" alt="Hero Phone" style="margin-top:2.5rem; width:180px; max-width:80vw; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.13); border:4px solid #fff;" />
+    </section>
+    <section id="products">
+      <h2 style="text-align:center; margin-bottom:2rem;">Featured Phones</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-max-1.jpg" alt="iPhone 15 Pro Max" class="product-img" />
+          <div class="product-title">iPhone 15 Pro Max</div>
+          <div class="product-price">$1,299</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-1.jpg" alt="iPhone 15 Pro" class="product-img" />
+          <div class="product-title">iPhone 15 Pro</div>
+          <div class="product-price">$1,199</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-plus-1.jpg" alt="iPhone 15 Plus" class="product-img" />
+          <div class="product-title">iPhone 15 Plus</div>
+          <div class="product-price">$1,099</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-1.jpg" alt="iPhone 15" class="product-img" />
+          <div class="product-title">iPhone 15</div>
+          <div class="product-price">$999</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg" alt="iPhone 14 Pro Max" class="product-img" />
+          <div class="product-title">iPhone 14 Pro Max</div>
+          <div class="product-price">$1,099</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-1.jpg" alt="iPhone 14 Pro" class="product-img" />
+          <div class="product-title">iPhone 14 Pro</div>
+          <div class="product-price">$999</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-plus-1.jpg" alt="iPhone 14 Plus" class="product-img" />
+          <div class="product-title">iPhone 14 Plus</div>
+          <div class="product-price">$899</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <select class="color-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Red">Red</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-1.jpg" alt="iPhone 14" class="product-img" />
+          <div class="product-title">iPhone 14</div>
+          <div class="product-price">$799</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.SIlqrPXqd1EXFISH0j414AHaJx?w=141&h=186&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone 13 Pro Max" class="product-img" />
+          <div class="product-title">iPhone 13 Pro Max</div>
+          <div class="product-price">$999</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.SZw4Tqn12RV0Rq2hBrHtkwHaFj?w=236&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone 13 Pro" class="product-img" />
+          <div class="product-title">iPhone 13 Pro</div>
+          <div class="product-price">$899</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.dRT_Od_2KYPeD1tOkLO6BgHaHa?w=200&h=198&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone 13" class="product-img" />
+          <div class="product-title">iPhone 13</div>
+          <div class="product-price">$799</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-mini-1.jpg" alt="iPhone 13 Mini" class="product-img" />
+          <div class="product-title">iPhone 13 Mini</div>
+          <div class="product-price">$699</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-pro-max-1.jpg" alt="iPhone 12 Pro Max" class="product-img" />
+          <div class="product-title">iPhone 12 Pro Max</div>
+          <div class="product-price">$899</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-pro-1.jpg" alt="iPhone 12 Pro" class="product-img" />
+          <div class="product-title">iPhone 12 Pro</div>
+          <div class="product-price">$799</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-1.jpg" alt="iPhone 12" class="product-img" />
+          <div class="product-title">iPhone 12</div>
+          <div class="product-price">$699</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-mini-1.jpg" alt="iPhone 12 Mini" class="product-img" />
+          <div class="product-title">iPhone 12 Mini</div>
+          <div class="product-price">$599</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-se-2022-1.jpg" alt="iPhone SE (2022)" class="product-img" />
+          <div class="product-title">iPhone SE (2022)</div>
+          <div class="product-price">$499</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-pro-max-1.jpg" alt="iPhone 11 Pro Max" class="product-img" />
+          <div class="product-title">iPhone 11 Pro Max</div>
+          <div class="product-price">$799</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-pro-1.jpg" alt="iPhone 11 Pro" class="product-img" />
+          <div class="product-title">iPhone 11 Pro</div>
+          <div class="product-price">$699</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-1.jpg" alt="iPhone 11" class="product-img" />
+          <div class="product-title">iPhone 11</div>
+          <div class="product-price">$599</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.wRLmPIaj4W220WibEozSxgHaHa?w=198&h=199&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone XS Max" class="product-img" />
+          <div class="product-title">iPhone XS Max</div>
+          <div class="product-price">$499</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.KAwFW1b3G_NVgklPIKrRtAHaGI?w=223&h=186&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone XS" class="product-img" />
+          <div class="product-title">iPhone XS</div>
+          <div class="product-price">$449</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-xr-1.jpg" alt="iPhone XR" class="product-img" />
+          <div class="product-title">iPhone XR</div>
+          <div class="product-price">$399</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.7-J7fk3jfIQODQEYCGMcBgHaG-?w=194&h=184&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone X" class="product-img" />
+          <div class="product-title">iPhone X</div>
+          <div class="product-price">$349</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-8-plus-1.jpg" alt="iPhone 8 Plus" class="product-img" />
+          <div class="product-title">iPhone 8 Plus</div>
+          <div class="product-price">$299</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.CYr6sRev7_3XjyYWGRiHswHaGu?w=206&h=187&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone 8" class="product-img" />
+          <div class="product-title">iPhone 8</div>
+          <div class="product-price">$249</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://th.bing.com/th/id/OIP.auY6TmQ9KOvr_axnYvVjqAHaHa?w=174&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="iPhone 7 Plus" class="product-img" />
+          <div class="product-title">iPhone 7 Plus</div>
+          <div class="product-price">$199</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-1.jpg" alt="iPhone 7" class="product-img" />
+          <div class="product-title">iPhone 7</div>
+          <div class="product-price">$149</div>
+          <select class="storage-select" style="margin-bottom:0.7rem; padding:0.4rem 1rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+          </select>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+    <section id="about" style="display:none; margin:3rem auto 0 auto; max-width:800px; background:#fff; border-radius:16px; box-shadow:0 2px 8px rgba(0,0,0,0.07); padding:2rem 1.5rem;">
+      <h2 style="text-align:center; margin-bottom:1.5rem; color:var(--primary);">About Daniyal Apple Store</h2>
+      <p style="font-size:1.1rem; line-height:1.7; margin-bottom:1.2rem; text-align:center;">
+        Daniyal Apple Store is your trusted destination for the latest and greatest smartphones. We are passionate about technology and committed to bringing you the best selection of mobile phones from top brands like Apple, Samsung, Xiaomi, OnePlus, Google, and more.
+      </p>
+      <p style="font-size:1.1rem; line-height:1.7; margin-bottom:1.2rem; text-align:center;">
+        <strong>Our Mission:</strong> To make cutting-edge mobile technology accessible and affordable for everyone, while providing exceptional customer service and a seamless shopping experience.
+      </p>
+      <ul style="font-size:1.05rem; line-height:1.7; margin:0 auto 1.2rem auto; max-width:600px; color:#444;">
+        <li>Wide range of the latest smartphones</li>
+        <li>Competitive prices and exclusive deals</li>
+        <li>Fast and reliable delivery</li>
+        <li>Expert advice and customer support</li>
+        <li>100% genuine products with warranty</li>
+      </ul>
+      <p style="font-size:1.1rem; line-height:1.7; text-align:center;">
+        Whether you're a tech enthusiast or just looking for a reliable phone, Daniyal Apple Store is here to help you find the perfect device for your needs.
+      </p>
+    </section>
+    <section id="contact" style="margin-top:3rem; max-width:600px; margin-left:auto; margin-right:auto; background:#fff; border-radius:16px; box-shadow:0 2px 8px rgba(0,0,0,0.07); padding:2rem 1.5rem;">
+      <h2 style="text-align:center; margin-bottom:1.5rem; color:var(--primary);">Contact Us</h2>
+      <div style="margin-bottom:1.5rem;">
+        <p><strong>Store Address:</strong> 123 Main Street, City Center, YourCity, Country</p>
+        <p><strong>Phone:</strong> <a href="tel:+1234567890" style="color:var(--primary); text-decoration:none;">+1 234 567 890</a></p>
+        <p><strong>Email:</strong> <a href="mailto:info@promobilestore.com" style="color:var(--primary); text-decoration:none;">info@promobilestore.com</a></p>
+        <!-- WhatsApp Contact -->
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-top:0.7rem;">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#25D366"/><path d="M23.5 18.7c-0.3-0.2-1.7-0.8-2-0.9-0.3-0.1-0.5-0.2-0.7 0.2s-0.8 0.9-1 1.1c-0.2 0.2-0.4 0.2-0.7 0.1-0.3-0.2-1.3-0.5-2.5-1.6-0.9-0.8-1.5-1.7-1.7-2-0.2-0.3 0-0.5 0.1-0.7 0.1-0.1 0.2-0.3 0.3-0.4 0.1-0.1 0.1-0.2 0.2-0.3 0.1-0.1 0-0.3 0-0.5s-0.7-1.7-1-2.3c-0.3-0.6-0.5-0.5-0.7-0.5-0.2 0-0.3 0-0.5 0s-0.5 0.1-0.7 0.3c-0.2 0.2-0.7 0.7-0.7 1.7 0 1 0.7 2 0.8 2.1 0.1 0.1 1.4 2.2 3.4 3 0.5 0.2 0.9 0.3 1.2 0.4 0.5 0.2 1 0.1 1.4 0.1 0.4-0.1 1.3-0.5 1.5-1 0.2-0.5 0.2-0.9 0.1-1.1z" fill="#fff"/></svg>
+          <a href="https://wa.me/1234567890" target="_blank" style="color:#25D366; font-weight:600; font-size:1.08rem; text-decoration:none;">Chat on WhatsApp: +1 234 567 890</a>
+        </div>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Thank you for contacting us! We will get back to you soon.');" style="display:flex; flex-direction:column; gap:1rem;">
+        <input type="text" name="name" placeholder="Your Name" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+        <input type="email" name="email" placeholder="Your Email" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;">
+        <textarea name="message" placeholder="Your Message" rows="4" required style="padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;"></textarea>
+        <button type="submit" style="background:var(--primary); color:#fff; border:none; border-radius:8px; padding:0.7rem; font-size:1rem; font-weight:600; cursor:pointer;">Send Message</button>
+      </form>
+    </section>
+  </main>
+  <footer style="text-align:center; padding:1.5rem 0; background:#fff; color:#888; margin-top:2rem; font-size:0.95rem;">
+    &copy; 2024 Daniyal Apple Store. All rights reserved.
+  </footer>
+  <script>
+    function setActive(link) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      // Section show/hide logic
+      const id = link.getAttribute('href').replace('#','');
+      const sections = ['home','products','about','contact'];
+      sections.forEach(sec => {
+        const el = document.getElementById(sec);
+        if (el) {
+          if (sec === id) {
+            el.style.display = '';
+            if (sec === 'about') window.scrollTo({top: el.offsetTop-80, behavior:'smooth'});
+          } else {
+            el.style.display = 'none';
+          }
+        }
+      });
+      // Scroll to section if not about
+      if (id !== 'about') {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({behavior:'smooth'});
+      }
+    }
+    // Show only home, hide others on load
+    window.addEventListener('DOMContentLoaded', function() {
+      setActive(document.querySelector('.nav-link.active'));
+    });
+    // --- Cart & Checkout Logic ---
+    const products = [
+      {name: 'iPhone 15 Pro Max', price: 1299, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-max-1.jpg'},
+      {name: 'iPhone 15 Pro', price: 1199, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-1.jpg'},
+      {name: 'iPhone 15 Plus', price: 1099, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-plus-1.jpg'},
+      {name: 'iPhone 15', price: 999, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-1.jpg'},
+      {name: 'iPhone 14 Pro Max', price: 1099, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg'},
+      {name: 'iPhone 14 Pro', price: 999, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-1.jpg'},
+      {name: 'iPhone 14 Plus', price: 899, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-plus-1.jpg'},
+      {name: 'iPhone 14', price: 799, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-1.jpg'},
+      {name: 'iPhone 13 Pro Max', price: 999, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-pro-max-1.jpg'},
+      {name: 'iPhone 13 Pro', price: 899, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-pro-1.jpg'},
+      {name: 'iPhone 13', price: 799, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-1.jpg'},
+      {name: 'iPhone 13 Mini', price: 699, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-mini-1.jpg'},
+      {name: 'iPhone 12 Pro Max', price: 899, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-pro-max-1.jpg'},
+      {name: 'iPhone 12 Pro', price: 799, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-pro-1.jpg'},
+      {name: 'iPhone 12', price: 699, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-1.jpg'},
+      {name: 'iPhone 12 Mini', price: 599, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-12-mini-1.jpg'},
+      {name: 'iPhone SE (2022)', price: 499, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-se-2022-1.jpg'},
+      {name: 'iPhone 11 Pro Max', price: 799, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-pro-max-1.jpg'},
+      {name: 'iPhone 11 Pro', price: 699, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-pro-1.jpg'},
+      {name: 'iPhone 11', price: 599, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-1.jpg'},
+      {name: 'iPhone XS Max', price: 499, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-xs-max-1.jpg'},
+      {name: 'iPhone XS', price: 449, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-xs-1.jpg'},
+      {name: 'iPhone XR', price: 399, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-xr-1.jpg'},
+      {name: 'iPhone X', price: 349, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-x-1.jpg'},
+      {name: 'iPhone 8 Plus', price: 299, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-8-plus-1.jpg'},
+      {name: 'iPhone 8', price: 249, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-8-1.jpg'},
+      {name: 'iPhone 7 Plus', price: 199, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-plus-1.jpg'},
+      {name: 'iPhone 7', price: 149, img: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-1.jpg'}
+    ];
+    let cart = [];
+    function updateCartCount() {
+      document.getElementById('cart-count').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+    function addToCart(idx, storage, color) {
+      const prod = products[idx];
+      const found = cart.find(item => item.name === prod.name && item.storage === storage && item.color === color);
+      if (found) { found.qty += 1; } else { cart.push({...prod, qty: 1, storage, color}); }
+      updateCartCount();
+    }
+    function showCart() {
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = 'flex';
+      const itemsDiv = document.getElementById('cart-items');
+      if (cart.length === 0) {
+        itemsDiv.innerHTML = '<p style="text-align:center; color:#888;">Your cart is empty.</p>';
+        document.getElementById('cart-total').textContent = '';
+        return;
+      }
+      itemsDiv.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; align-items:center; gap:0.7rem; margin-bottom:1rem;">
+          <img src="${item.img}" alt="${item.name}" style="width:48px; height:48px; object-fit:contain; border-radius:8px; border:1px solid #eee;">
+          <div style="flex:1;">
+            <div style="font-weight:600;">${item.name}</div>
+            <div style="color:#1a73e8;">$${item.price}</div>
+            <div style="font-size:0.95rem; color:#888;">Storage: ${item.storage}</div>
+            <div style="font-size:0.95rem; color:#888;">Color: ${item.color}</div>
+            <div style="font-size:0.95rem; color:#888;">Qty: <input type='number' min='1' value='${item.qty}' style='width:40px;' onchange='changeQty(${i}, this.value)'></div>
+          </div>
+          <button onclick="removeFromCart(${i})" style="background:none; border:none; color:#e53935; font-size:1.2rem; cursor:pointer;">&times;</button>
+        </div>
+      `).join('');
+      document.getElementById('cart-total').textContent = 'Total: $' + cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    }
+    function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+    function removeFromCart(idx) { cart.splice(idx,1); updateCartCount(); showCart(); }
+    function changeQty(idx, val) { cart[idx].qty = Math.max(1, parseInt(val)||1); updateCartCount(); showCart(); }
+    document.getElementById('cart-btn').onclick = showCart;
+    // Attach addToCart to all add-cart-btn
+    document.querySelectorAll('.add-cart-btn').forEach((btn, idx) => {
+      btn.onclick = function() {
+        const storage = btn.parentElement.querySelector('.storage-select').value;
+        const color = btn.parentElement.querySelector('.color-select').value;
+        addToCart(idx, storage, color);
+      };
+    });
+    // --- Checkout ---
+    function proceedToCheckout() {
+      closeCart();
+      document.getElementById('checkout-modal').style.display = 'flex';
+    }
+    function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+    function submitOrder(e) {
+      e.preventDefault();
+      closeCheckout();
+      cart = [];
+      updateCartCount();
+      alert('Thank you for your order! We will contact you soon.');
+    }
+    // Initial cart count
+    updateCartCount();
+  </script>
+</body>
+</html>
